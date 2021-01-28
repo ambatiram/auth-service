@@ -2,14 +2,14 @@
 
 ### Live Demo
 
-The application is hosted on Heroku free tier. Check out the live demo at https://auth-service-ambatiram.herokuapp.com/
+	The application is hosted on Heroku free tier. Check out the live demo REST API end point at https://auth-service-ambatiram.herokuapp.com/swagger-ui.html
 
 ## Steps to Setup AuthService Server (auth-service)
 
 1. **Clone the application**
 
 	```bash
-	git clone https://github.com/callicoder/spring-security-react-ant-design-polls-app.git
+	git clone https://github.com/ambatiram/auth-service.git
 	cd auth-service
 	```
 2. **Create MySQL database**
@@ -17,6 +17,8 @@ The application is hosted on Heroku free tier. Check out the live demo at https:
 	```bash
 	create database auth_service
 	```
+	Import schema from file available auth_service in root directory
+	
 3. **Change MySQL username and password as per your MySQL installation**
 
 	+ open `src/main/resources/application.properties` file.
@@ -37,5 +39,9 @@ The application is hosted on Heroku free tier. Check out the live demo at https:
 	```bash
 	mvn package
 	java -jar target/auth-service-0.0.1-SNAPSHOT.jar
+
+5. **End points documention**
+	
+	You can get all the end points through swagger UI URL as http://localhost:8080/swagger-ui.html
 	
 
