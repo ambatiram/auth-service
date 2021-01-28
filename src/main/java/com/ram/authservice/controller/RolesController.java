@@ -1,9 +1,7 @@
 package com.ram.authservice.controller;
 
 import java.net.URI;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -43,7 +41,7 @@ public class RolesController {
                 HttpStatus.OK);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("/roles")
 	public ResponseEntity<?> postRole(@Valid @RequestBody RoleRequest roleRequest){
 		if(rolesRepository.existsByRoleName(roleRequest.getRoleName())) {

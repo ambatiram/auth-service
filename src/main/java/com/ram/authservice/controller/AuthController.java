@@ -1,7 +1,6 @@
 package com.ram.authservice.controller;
 
 import java.net.URI;
-import java.util.Collections;
 
 import javax.validation.Valid;
 
@@ -23,9 +22,6 @@ import com.ram.authservice.dto.ApiResponse;
 import com.ram.authservice.dto.JwtAuthenticationResponse;
 import com.ram.authservice.dto.LoginRequest;
 import com.ram.authservice.dto.SignupRequest;
-import com.ram.authservice.exceptions.AppException;
-import com.ram.authservice.model.Role;
-import com.ram.authservice.model.RoleName;
 import com.ram.authservice.model.User;
 import com.ram.authservice.repository.RoleRepository;
 import com.ram.authservice.repository.UserRepository;
@@ -85,13 +81,6 @@ public class AuthController {
                 signUpRequest.getEmail(), signUpRequest.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        /* Enable this to set default role and permissions
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new AppException("User Role not set."));
-
-        user.setRoles(Collections.singleton(userRole));
-        */
 
         User result = userRepository.save(user);
 

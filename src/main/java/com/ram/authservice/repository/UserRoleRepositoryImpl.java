@@ -8,14 +8,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ram.authservice.model.Role;
-import com.ram.authservice.model.User;
 
 @Repository
 @Transactional
@@ -34,7 +31,6 @@ public class UserRoleRepositoryImpl implements UserRoleRepository{
         		"join role r on r.id = ur.role_id\r\n" + 
         		"where user_id = "+userId);	
 
-		@SuppressWarnings("unchecked")
 		List<Role> roles = new ArrayList<Role>();
 		List<Object[]> results = query.getResultList();
 		for(Object[] result: results){

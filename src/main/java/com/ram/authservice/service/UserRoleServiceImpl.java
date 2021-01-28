@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ram.authservice.model.Role;
-import com.ram.authservice.model.User;
 import com.ram.authservice.repository.UserRoleRepository;
 
 @Service

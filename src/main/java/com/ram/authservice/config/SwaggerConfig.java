@@ -22,6 +22,7 @@ public class SwaggerConfig {
 	            .apiInfo(apiInfo());
 	}
 
+	@SuppressWarnings("deprecation")
 	private ApiInfo apiInfo() {
 	    ApiInfo apiInfo = new ApiInfo("Auth Service API", "This API provides basic authentication for user creation and login with JWT tokens", "API TOS", "Terms of service", "ambati.569@gmail.com", "", "API license URL");
 	    return apiInfo;
