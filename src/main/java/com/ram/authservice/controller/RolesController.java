@@ -51,14 +51,18 @@ public class RolesController {
                     HttpStatus.BAD_REQUEST);
         }
 
-		Role role = rolesRepository.findByRoleName(roleRequest.getRoleName());
-		Set<Permission> permissions = new HashSet<Permission>();
+		Role role = new Role();
+		role.setRoleName(roleRequest.getRoleName());
+	
+		
 		for(PermissionRequest permissionReq : roleRequest.getPermissions()) {
-			permissions.add(permissionsRepository.findByPermissionCode(permissionReq.getPermissionName()));
+			Permission permission = permissionsRepository.findByPermissionCode(permissionReq.getPermissionName());
+			permission.getRoles().add(role);
+			role.getPermissions().add(permission);
 		}
-		role.setPermissions(permissions);
-        
+		
 		Role result = rolesRepository.save(role);
+		
 		URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/role/{id}")
                 .buildAndExpand(result.getId()).toUri();

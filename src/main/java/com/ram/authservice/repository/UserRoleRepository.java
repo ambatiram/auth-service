@@ -16,4 +16,6 @@ public interface UserRoleRepository {
 	
 	
 	List<Role> getRolesByUserId(Long userId);
+
+	List<Integer> getUserPermissionsByUserId(Long userId);
 }

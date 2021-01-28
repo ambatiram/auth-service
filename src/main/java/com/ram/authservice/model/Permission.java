@@ -1,16 +1,25 @@
 package com.ram.authservice.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NaturalId;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "permission",uniqueConstraints = {
@@ -32,6 +41,11 @@ public class Permission {
 	
 	@Column(length = 45, name="permission_code")
 	private String permissionCode;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+            mappedBy = "permissions")
+	@JsonIgnoreProperties("permissions")
+	private Set<Role> roles = new HashSet<Role>();
 	
 	public Permission() {
 
@@ -58,6 +72,14 @@ public class Permission {
 
 	public void setPermissionCode(String permissionCode) {
 		this.permissionCode = permissionCode;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
 	

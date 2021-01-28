@@ -27,7 +27,7 @@ CREATE TABLE `permission` (
   `permission_code` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKpubb8bn5j1jwu50vnykvbap9w` (`permission_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,'test');
+INSERT INTO `permission` VALUES (1,'test'),(2,'test1');
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +54,7 @@ CREATE TABLE `role` (
   UNIQUE KEY `uk_roles_name` (`role_name`),
   UNIQUE KEY `UK_epk9im9l9q67xmwi4hbed25do` (`role_name`),
   UNIQUE KEY `UKiubw515ff0ugtm28p8g3myt0h` (`role_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (5,'ROLE_ADMIN'),(4,'ROLE_USER');
+INSERT INTO `role` VALUES (5,'ROLE_ADMIN'),(4,'ROLE_USER'),(3,'SUPER_ADMIN'),(10,'SUPER_ADMIN1'),(14,'SUPER_ADMIN2'),(15,'SUPER_ADMIN3'),(16,'SUPER_ADMIN4');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,14 +76,14 @@ DROP TABLE IF EXISTS `role_permission`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role_permission` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `role_id` int NOT NULL,
+  `role_id` bigint NOT NULL,
   `permission_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `roleperm_role_id_fk_idx` (`role_id`),
-  KEY `roleperm_perm_id_fk_idx` (`permission_id`),
-  CONSTRAINT `roleperm_perm_id_fk` FOREIGN KEY (`permission_id`) REFERENCES `auth-service`.`permission` (`id`),
-  CONSTRAINT `roleperm_role_id_fk` FOREIGN KEY (`role_id`) REFERENCES `auth-service`.`role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `rolepermission_role_id_fk_idx` (`role_id`),
+  KEY `rolepermission_perm_id_fk_idx` (`permission_id`),
+  CONSTRAINT `rolepermission_perm_id_fk` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`),
+  CONSTRAINT `rolepermission_role_id_fk` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +92,7 @@ CREATE TABLE `role_permission` (
 
 LOCK TABLES `role_permission` WRITE;
 /*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
+INSERT INTO `role_permission` VALUES (12,14,2),(13,15,2),(14,16,1),(15,16,2);
 /*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,12 +138,13 @@ DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
   `user_id` bigint NOT NULL,
   `role_id` bigint NOT NULL,
-  `id` bigint NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`),
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   KEY `fk_user_roles_role_id` (`role_id`),
+  KEY `fk_user_roles_user_id` (`user_id`),
   CONSTRAINT `fk_user_roles_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
   CONSTRAINT `fk_user_roles_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +153,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,4,0);
+INSERT INTO `user_role` VALUES (1,4,1),(1,5,2),(1,3,3),(1,10,4),(1,14,5),(1,16,6);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -164,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-28 18:43:36
+-- Dump completed on 2021-01-29  1:42:43

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,6 +21,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "role",uniqueConstraints = {
         @UniqueConstraint(columnNames = {
@@ -29,7 +32,8 @@ import org.hibernate.annotations.NaturalId;
 public class Role {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private BigInteger id;
 		
 //	@Enumerated(EnumType.STRING)
@@ -40,11 +44,17 @@ public class Role {
 	@Column(length = 45, name="role_name")
 	private String roleName;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "role_permission",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
+	@JsonIgnoreProperties("roles")
     private Set<Permission> permissions = new HashSet<>();
+	
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+//            mappedBy = "roles")
+//	@JsonIgnoreProperties("roles")
+//	private Set<User> users = new HashSet<User>();
 	
 	public Role() {
 
@@ -91,7 +101,14 @@ public class Role {
 	public void setPermissions(Set<Permission> permissions) {
 		this.permissions = permissions;
 	}
+
+//	public Set<User> getUsers() {
+//		return users;
+//	}
+//
+//	public void setUsers(Set<User> users) {
+//		this.users = users;
+//	}
 	
 	
-    
 }

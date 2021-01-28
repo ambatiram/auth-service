@@ -47,4 +47,23 @@ public class UserRoleRepositoryImpl implements UserRoleRepository{
 	
 	    return roles;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> getUserPermissionsByUserId(Long userId) {
+		EntityManager em = emf.createEntityManager();
+        Query query = em.createNativeQuery("SELECT distinct P.id from\r\n" + 
+        		"user_role UR, role_permission RP,  permission P, role R\r\n" + 
+        		"WHERE UR.role_id = R.id AND\r\n" + 
+        		"RP.role_id = UR.role_id AND\r\n" + 
+        		"RP.permission_id = P.id and\r\n" + 
+        		"UR.user_id = " + userId +
+        		" order by p.id asc ");	
+
+		List<Integer> results = query.getResultList();
+
+	    em.close();
+	
+	    return results;
+	}
 }

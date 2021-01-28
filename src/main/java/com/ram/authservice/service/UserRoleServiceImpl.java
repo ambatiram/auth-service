@@ -22,4 +22,11 @@ public class UserRoleServiceImpl implements UserRoleService{
 		return userRoleRepo.getRolesByUserId(userId);
 	}
 
+
+
+	@Override
+	public List<Integer> getUserPermissionsByUserId(Long userId) {
+		return userRoleRepo.getUserPermissionsByUserId(userId);
+	}
+
 }
